@@ -57,9 +57,9 @@ namespace CRUDApp.Controllers
 
         public IActionResult Edit(int ID)
         {
-            Department data = this.dbContext.Departments.Where(e => e.DepartmentId == ID).FirstOrDefault();
+            Department data = this.dbContext.Departments.FirstOrDefault(e => e.DepartmentId == ID);
             ViewBag.Departments = this.dbContext.Departments.ToList();
-            return View("CreateDepartment", data);
+            return View("Index", data);
         }
 
         public IActionResult Delete(int ID)
