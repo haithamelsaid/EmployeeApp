@@ -1,0 +1,24 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "CreateDepartment";
+        
+}
+<h2>@ViewBag.Title </h2> 
+<form asp-action="CreateDepartment">
+    <div asp-validation-summary=All></div>
+
+    <div class="col-lg-2">
+    <label asp-for="DepartmentId" class= "control-label"></label>
+    <input asp-for="DepartmentId" class = "form-control" readonly/>
+    </div>
+    
+    <label asp-for="DepartmentName" class= "control-label"></label>
+    <input asp-for="DepartmentName" class = "form-control" />
+ 
+    <label asp-for="DepartmentAbbr" class= "control-label"></label>
+    <input asp-for="DepartmentAbbr" class = "form-control" />
+ 
+    <input type="submit" value = "Save" class = "btn btn-primary" />
+    <a asp-action="Index" class = "btn btn-secondary">Cancel</a>
+</form>
+
