@@ -46,7 +46,8 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var item in Model){
+        @foreach (var item in Model)
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.EmployeeNumber)
@@ -70,10 +71,10 @@
                     @Html.DisplayFor(modelItem => item.Department.DepartmentName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit","Edit",new {id=item.EmployeeID})
+                    @Html.ActionLink("Edit", "Edit", new {id = item.EmployeeID})
                 </td>
                 <td>
-                    @Html.ActionLink("Delete","Delete",new {id=item.EmployeeID},new {onclick="return confirm('are you sure you want to delete this employee?');"})
+                    @Html.ActionLink("Delete", "Delete", new {id = item.EmployeeID}, new {onclick = "return confirm('are you sure you want to delete this employee?');"})
                 </td>
             </tr>
         }

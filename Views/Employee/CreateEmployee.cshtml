@@ -38,13 +38,12 @@
 
     <label asp-for="Departmentid" class= "control-label"></label>
    
-     <select class="form-control" asp-for="Departmentid" asp-items=ViewBag.Departments >
-        <option value="null">
-            Select Department Name
+    <select class="form-control" asp-for="Departmentid" asp-items="@(new SelectList(Model.EmployeeName,nameof(Department.DepartmentId),nameof(Department.DepartmentName)))">
+        <option value="">
+            Choose department name
         </option>
     </select>
-
-
+    
     <input type="submit" value = "Save" class = "btn btn-primary" />
     <a asp-action="Index" class = "btn btn-secondary">Cancel</a>
   

@@ -48,14 +48,13 @@ namespace CRUDApp.Controllers
 
         public IActionResult Edit(int ID)
         {
-            Employee data = this.dbContext.Employees.Where(e=>e.EmployeeID == ID).FirstOrDefault();
-            ViewBag.Departments = this.dbContext.Departments.ToList();
+            Employee data = this.dbContext.Employees.FirstOrDefault(e => e.EmployeeID == ID); 
             return View("CreateEmployee",data);
         }
 
         public IActionResult Delete(int ID)
         {
-            Employee data = this.dbContext.Employees.Where(e => e.EmployeeID == ID).FirstOrDefault();
+            Employee data = this.dbContext.Employees.FirstOrDefault(e => e.EmployeeID == ID);
             if (data != null)
             {
                 dbContext.Employees.Remove(data);
@@ -63,6 +62,7 @@ namespace CRUDApp.Controllers
             }
             return RedirectToAction("Index");
         }
+
         private List<Employee> SortedEmployees(List<Employee> employees, string sortField, string currentSortField, SortDirection sortDirection)
         {
             if (string.IsNullOrEmpty(sortField))
