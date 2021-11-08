@@ -38,7 +38,7 @@
 
     <label asp-for="Departmentid" class= "control-label"></label>
    
-    <select class="form-control" asp-for="Departmentid" asp-items="@(new SelectList(Model.EmployeeName,nameof(Department.DepartmentId),nameof(Department.DepartmentName)))">
+    <select class="form-control" asp-for="Departmentid" asp-items="@(new SelectList(Model.Department.DepartmentName,nameof(Department.DepartmentId),nameof(Department.DepartmentName)))">
         <option value="">
             Choose department name
         </option>

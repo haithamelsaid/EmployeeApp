@@ -25,9 +25,7 @@ namespace CRUDApp.Controllers
         }
         public IActionResult CreateEmployee()
         {
-            ViewBag.Departments = new SelectList(dbContext.Departments.ToList(), 
-                nameof(Department.DepartmentId),
-                nameof(Department.DepartmentName));
+
             return View();
         }
 
