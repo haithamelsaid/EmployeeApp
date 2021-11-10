@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CRUDApp.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +18,7 @@ namespace CRUDApp.Migrations
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DepartmentName = table.Column<string>(type: "varchar(150)", nullable: false),
-                    DepartmentAbbr = table.Column<string>(type: "varchar(5)", nullable: false)
+                    DepartmentAbbr = table.Column<string>(type: "varchar(150)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,14 +38,14 @@ namespace CRUDApp.Migrations
                     HiringDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     GrossSalary = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     NetSalary = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false)
+                    Departmentid = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employee", x => x.EmployeeID);
                     table.ForeignKey(
-                        name: "FK_Employee_Department_DepartmentId",
-                        column: x => x.DepartmentId,
+                        name: "FK_Employee_Department_Departmentid",
+                        column: x => x.Departmentid,
                         principalSchema: "dbo",
                         principalTable: "Department",
                         principalColumn: "DepartmentId",
@@ -53,10 +53,10 @@ namespace CRUDApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_DepartmentId",
+                name: "IX_Employee_Departmentid",
                 schema: "dbo",
                 table: "Employee",
-                column: "DepartmentId");
+                column: "Departmentid");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

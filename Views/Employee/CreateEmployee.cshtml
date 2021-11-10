@@ -4,7 +4,6 @@
     ViewBag.Title = Model != null ? "Edit" : "Create";
 }
 
-<h2>@ViewBag.Title Employee  </h2> 
 <form asp-action="CreateEmployee">
     <div asp-validation-summary=All></div>
 
@@ -38,7 +37,7 @@
 
     <label asp-for="Departmentid" class= "control-label"></label>
    
-    <select class="form-control" asp-for="Departmentid" asp-items="@(new SelectList(Model.Department.DepartmentName,nameof(Department.DepartmentId),nameof(Department.DepartmentName)))">
+    <select class="form-control" asp-for="Departmentid" asp-items="@(new SelectList(nameof(Department.DepartmentName),nameof(Department.DepartmentId)))">
         <option value="">
             Choose department name
         </option>

@@ -28,7 +28,7 @@ namespace CRUDApp.Migrations
 
                     b.Property<string>("DepartmentAbbr")
                         .IsRequired()
-                        .HasColumnType("varchar(5)");
+                        .HasColumnType("varchar(150)");
 
                     b.Property<string>("DepartmentName")
                         .IsRequired()
@@ -49,7 +49,7 @@ namespace CRUDApp.Migrations
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int>("Departmentid")
                         .HasColumnType("int");
 
                     b.Property<string>("EmployeeName")
@@ -73,7 +73,7 @@ namespace CRUDApp.Migrations
 
                     b.HasKey("EmployeeID");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("Departmentid");
 
                     b.ToTable("Employee", "dbo");
                 });
@@ -82,7 +82,7 @@ namespace CRUDApp.Migrations
                 {
                     b.HasOne("CRUDApp.Models.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartmentId")
+                        .HasForeignKey("Departmentid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

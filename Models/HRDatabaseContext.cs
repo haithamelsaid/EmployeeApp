@@ -8,7 +8,7 @@ namespace CRUDApp.Models
         public DbSet<Employee> Employees { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"data source=DESKTOP-SU3Q476;initial catalog=EmployeesDB;integrated security=SSPI;");
+            optionsBuilder.UseSqlServer(@"data source=(localdb)\mssqllocaldb;initial catalog=EmployeesDB;integrated security=SSPI;");
         }
     }
 }

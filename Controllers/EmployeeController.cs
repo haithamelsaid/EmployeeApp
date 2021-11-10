@@ -12,8 +12,8 @@ namespace CRUDApp.Controllers
        
         private List<Employee> GetEmployees()
         {
-            var employees = dbContext.Employees.Include(c => c.Department).ToList();
 
+            var employees = dbContext.Employees.ToList();
             return employees;
         }
         public IActionResult Index(string SortField, string CurrentSortField, SortDirection SortDirection, string searchByName)
@@ -23,6 +23,9 @@ namespace CRUDApp.Controllers
                 employees = employees.Where(e => e.EmployeeName.ToLower().Contains(searchByName.ToLower())).ToList();
             return View(this.SortedEmployees(employees, SortField, CurrentSortField, SortDirection));
         }
+
+        [HttpGet]
+
         public IActionResult CreateEmployee()
         {
 

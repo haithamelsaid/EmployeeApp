@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRUDApp.Migrations
 {
     [DbContext(typeof(HRDatabaseContext))]
-    [Migration("20211021103255_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20211109141743_InitCreate")]
+    partial class InitCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,7 +30,7 @@ namespace CRUDApp.Migrations
 
                     b.Property<string>("DepartmentAbbr")
                         .IsRequired()
-                        .HasColumnType("varchar(5)");
+                        .HasColumnType("varchar(150)");
 
                     b.Property<string>("DepartmentName")
                         .IsRequired()
@@ -51,7 +51,7 @@ namespace CRUDApp.Migrations
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int>("Departmentid")
                         .HasColumnType("int");
 
                     b.Property<string>("EmployeeName")
@@ -75,7 +75,7 @@ namespace CRUDApp.Migrations
 
                     b.HasKey("EmployeeID");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("Departmentid");
 
                     b.ToTable("Employee", "dbo");
                 });
@@ -84,7 +84,7 @@ namespace CRUDApp.Migrations
                 {
                     b.HasOne("CRUDApp.Models.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartmentId")
+                        .HasForeignKey("Departmentid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
