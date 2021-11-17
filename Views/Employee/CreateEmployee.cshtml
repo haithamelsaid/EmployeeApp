@@ -1,10 +1,11 @@
-﻿@model Employee
+﻿@using Microsoft.EntityFrameworkCore
+@model Employee
 
 @{
-    ViewBag.Title = Model != null ? "Edit" : "Create";
+    ViewBag.Title=Model != null ? "Edit" : "CreateEmployee";
 }
 
-<form asp-action="CreateEmployee">
+<form asp-action="@ViewBag.Title">
     <div asp-validation-summary=All></div>
 
     <div class="col-lg-2">
@@ -37,7 +38,7 @@
 
     <label asp-for="Departmentid" class= "control-label"></label>
    
-    <select class="form-control" asp-for="Departmentid" asp-items="@(new SelectList(nameof(Department.DepartmentName),nameof(Department.DepartmentId)))">
+    <select class="form-control" asp-for="Departmentid" asp-items="@(new SelectList(ViewBag.Departments,nameof(Department.DepartmentId),nameof(Department.DepartmentName)))">
         <option value="">
             Choose department name
         </option>

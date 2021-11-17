@@ -9,13 +9,22 @@ namespace CRUDApp.Controllers
     {   
         public enum SortDirection { Ascending,Descending}
         private readonly HRDatabaseContext dbContext = new();
-       
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            List<Employee> employees = dbContext.Employees.Include(x=>x.Department).ToList();
+            return View(employees);
+        }
         private List<Employee> GetEmployees()
         {
 
-            var employees = dbContext.Employees.ToList();
-            return employees;
+            ViewBag.employees = from e in dbContext.Employees
+                join d in dbContext.Departments on e.Departmentid equals d.DepartmentId select e;
+            return View(ViewBag.employees);
         }
+     
+        [HttpPost]
         public IActionResult Index(string SortField, string CurrentSortField, SortDirection SortDirection, string searchByName)
         {
             var employees = GetEmployees();
@@ -28,7 +37,7 @@ namespace CRUDApp.Controllers
 
         public IActionResult CreateEmployee()
         {
-
+            ViewBag.Departments = this.dbContext.Departments.ToList();
             return View();
         }
 
@@ -47,16 +56,16 @@ namespace CRUDApp.Controllers
             return View();
         }
 
-
+        [HttpPut]
         public IActionResult Edit(int ID)
         {
-            Employee data = this.dbContext.Employees.FirstOrDefault(e => e.EmployeeID == ID); 
+            Employee data = this.dbContext.Employees.Include(e=>e.Department).FirstOrDefault(e => Equals(e.EmployeeID, ID)); 
             return View("CreateEmployee",data);
         }
 
         public IActionResult Delete(int ID)
         {
-            Employee data = this.dbContext.Employees.FirstOrDefault(e => e.EmployeeID == ID);
+            Employee data = this.dbContext.Employees.FirstOrDefault(e => Equals(e.EmployeeID, ID));
             if (data != null)
             {
                 dbContext.Employees.Remove(data);
@@ -64,6 +73,7 @@ namespace CRUDApp.Controllers
             }
             return RedirectToAction("Index");
         }
+        
 
         private List<Employee> SortedEmployees(List<Employee> employees, string sortField, string currentSortField, SortDirection sortDirection)
         {

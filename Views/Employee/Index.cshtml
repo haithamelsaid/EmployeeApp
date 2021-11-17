@@ -10,7 +10,6 @@
     </div>
 
 }
-
 <a asp-action="CreateEmployee" class="btn btn-primary" >Create New Employee</a>
 
 
@@ -37,16 +36,18 @@
                 @Html.ActionLink("Net Salary","Index" , new {sortField="NetSalary", currentSortField=ViewBag.SortField,sortDirection=ViewBag.sortDirection})
             </th>
             <th>
-                @Html.ActionLink("Department Name","Index" , new {sortField="DepartmentName", currentSortField=ViewBag.SortField,sortDirection=ViewBag.sortDirection})
+                @Html.ActionLink("Department Name","Index" , new {sortField=ViewBag.Departments, currentSortField=ViewBag.SortField,sortDirection=ViewBag.sortDirection})
             </th>
             
             <th>
-
+                Edit
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+
+    
+    @foreach (var item in Model)
         {
             <tr>
                 <td>

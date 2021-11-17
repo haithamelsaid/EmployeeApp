@@ -12,16 +12,16 @@ namespace CRUDApp.Controllers
             Ascending,
             Descending
         }
-
         private readonly HRDatabaseContext dbContext = new();
 
+        [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.Departments = this.dbContext.Departments.ToList();
+            ViewBag.Employees = this.dbContext.Employees.Include(e=>e.Department).ToList();
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult Index(string SortField, string CurrentSortField, SortDirection SortDirection,string searchByName)
         {
             var departments = GetDepartments();
@@ -64,7 +64,7 @@ namespace CRUDApp.Controllers
 
         public IActionResult Delete(int ID)
         {
-            Employee data = this.dbContext.Employees.Where(e => e.EmployeeID == ID).FirstOrDefault();
+            Employee data = this.dbContext.Employees.FirstOrDefault(e => e.EmployeeID == ID);
             if (data != null)
             {
                 dbContext.Employees.Remove(data);
