@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace CRUDApp.Migrations
 {
-    public partial class InitCreate : Migration
+    public partial class InitialMigrate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

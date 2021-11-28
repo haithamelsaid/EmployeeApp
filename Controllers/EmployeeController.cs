@@ -8,7 +8,7 @@ namespace CRUDApp.Controllers
     public class EmployeeController : Controller
     {   
         public enum SortDirection { Ascending,Descending}
-        private readonly HRDatabaseContext dbContext = new();
+        private readonly HrDatabaseContext dbContext = new();
 
         [HttpGet]
         public IActionResult Index()

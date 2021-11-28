@@ -12,13 +12,13 @@ namespace CRUDApp.Controllers
             Ascending,
             Descending
         }
-        private readonly HRDatabaseContext dbContext = new();
+        private readonly HrDatabaseContext dbContext = new();
 
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.Employees = this.dbContext.Employees.Include(e=>e.Department).ToList();
-            return View();
+            var Departments= this.dbContext.Departments.ToList();
+            return View(Departments);
         }
 
         [HttpPost]
@@ -34,6 +34,7 @@ namespace CRUDApp.Controllers
         [HttpGet]
         public IActionResult CreateDepartment()
         {
+            ViewBag.Departments = this.dbContext.Departments.ToList();
             return View();
         }
 
@@ -58,16 +59,25 @@ namespace CRUDApp.Controllers
         public IActionResult Edit(int ID)
         {
             Department data = this.dbContext.Departments.FirstOrDefault(e => e.DepartmentId == ID);
+            ModelState.Remove(nameof(data.DepartmentId));
+            if (ModelState.IsValid)
+            {
+                dbContext.Departments.Update(data);
+                dbContext.SaveChanges();
+                return RedirectToAction("CreateDepartment");
+            }
             ViewBag.Departments = this.dbContext.Departments.ToList();
-            return View("Index", data);
+            
+            return View("CreateDepartment", data);
+
         }
 
         public IActionResult Delete(int ID)
         {
-            Employee data = this.dbContext.Employees.FirstOrDefault(e => e.EmployeeID == ID);
+            Department data = this.dbContext.Departments.FirstOrDefault(e => e.DepartmentId == ID);
             if (data != null)
             {
-                dbContext.Employees.Remove(data);
+                dbContext.Departments.Remove(data);
                 dbContext.SaveChanges();
             }
 
