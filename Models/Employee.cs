@@ -10,7 +10,7 @@ namespace CRUDApp.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name="Employee ID")]
-        public int EmployeeID { get; set; }
+        public int EmployeeId { get; set; }
 
         [Required]
         [Column(TypeName = "varchar(5)")]

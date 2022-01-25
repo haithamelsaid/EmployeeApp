@@ -1,29 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using CRUDApp.Models;
+﻿using CRUDApp.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CRUDApp.Controllers
 {
     public class EmployeeController : Controller
-    {   
-        public enum SortDirection { Ascending,Descending}
-        private readonly HrDatabaseContext dbContext = new();
+    {
+        public enum SortDirection { Ascending, Descending }
+        private readonly HrDatabaseContext dbContext = new HrDatabaseContext();
 
         [HttpGet]
         public IActionResult Index()
         {
-            List<Employee> employees = dbContext.Employees.Include(x=>x.Department).ToList();
+            List<Employee> employees = dbContext.Employees.Include(e => e.Department).ToList();
             return View(employees);
         }
-        private List<Employee> GetEmployees()
-        {
-
-            ViewBag.employees = from e in dbContext.Employees
-                join d in dbContext.Departments on e.Departmentid equals d.DepartmentId select e;
-            return View(ViewBag.employees);
-        }
-     
         [HttpPost]
         public IActionResult Index(string SortField, string CurrentSortField, SortDirection SortDirection, string searchByName)
         {
@@ -33,12 +24,10 @@ namespace CRUDApp.Controllers
             return View(this.SortedEmployees(employees, SortField, CurrentSortField, SortDirection));
         }
 
-        [HttpGet]
-
-        public IActionResult CreateEmployee()
+        private List<Employee> GetEmployees()
         {
-            ViewBag.Departments = this.dbContext.Departments.ToList();
-            return View();
+            ViewBag.employees = this.dbContext.Employees.Include(e => e.Department).ToList();
+            return View(ViewBag.employees);
         }
 
         [HttpPost]
@@ -56,16 +45,37 @@ namespace CRUDApp.Controllers
             return View();
         }
 
-        [HttpPut]
-        public IActionResult Edit(int ID)
+        [HttpGet]
+        public IActionResult Edit(int Id)
         {
-            Employee data = this.dbContext.Employees.Include(e=>e.Department).FirstOrDefault(e => Equals(e.EmployeeID, ID)); 
-            return View("CreateEmployee",data);
+            Employee data = this.dbContext.Employees.Include(e => e.Department).FirstOrDefault(e => e.EmployeeId == Id);
+            if (data == null)
+                return View("Error");
+            ViewBag.Departments = this.dbContext.Departments.ToList();
+            return View("CreateEmployee", data);
         }
+
+
+        [HttpPost]
+        public IActionResult Edit(Employee employee)
+        {
+            ModelState.Remove("EmployeeId");
+            ModelState.Remove("Department");
+            ModelState.Remove("DepartmentName");
+            if (ModelState.IsValid)
+            {
+                dbContext.Employees.Update(employee);
+                dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Departments = this.dbContext.Departments.ToList();
+            return View("CreateEmployee", employee);
+        }
+
 
         public IActionResult Delete(int ID)
         {
-            Employee data = this.dbContext.Employees.FirstOrDefault(e => Equals(e.EmployeeID, ID));
+            Employee data = this.dbContext.Employees.FirstOrDefault(e => Equals(e.EmployeeId, ID));
             if (data != null)
             {
                 dbContext.Employees.Remove(data);
@@ -73,7 +83,14 @@ namespace CRUDApp.Controllers
             }
             return RedirectToAction("Index");
         }
-        
+
+
+        [HttpGet]
+        public IActionResult CreateEmployee()
+        {
+            ViewBag.Departments = this.dbContext.Departments.ToList();
+            return View();
+        }
 
         private List<Employee> SortedEmployees(List<Employee> employees, string sortField, string currentSortField, SortDirection sortDirection)
         {
@@ -104,6 +121,6 @@ namespace CRUDApp.Controllers
                 employees = employees.OrderByDescending(e => propertyInfo.GetValue(e, null)).ToList();
             return employees;
         }
-      
+
     }
 }

@@ -49,26 +49,38 @@ namespace CRUDApp.Controllers
                 return RedirectToAction("Index");
             }
 
+
+
             ViewBag.Departments = dbContext.Departments.ToList();
             return View();
         }
 
-
-        
-
-        public IActionResult Edit(int ID)
+        [HttpGet]
+        public IActionResult Edit(int Id) 
         {
-            Department data = this.dbContext.Departments.FirstOrDefault(e => e.DepartmentId == ID);
-            ModelState.Remove(nameof(data.DepartmentId));
+            Department data = this.dbContext.Departments.FirstOrDefault(e => e.DepartmentId == Id);
+            if (data == null)
+                return View("Error");
+            ViewBag.Departments=this.dbContext.Departments.ToList();
+            return View("CreateDepartment", data);
+
+        }
+        
+        [HttpPut]
+        public IActionResult Edit(Department department)
+        {
+            ModelState.Remove(nameof(department.DepartmentId));
+            ModelState.Remove(nameof(department.DepartmentName));
+            ModelState.Remove(nameof(department.DepartmentAbbr));
             if (ModelState.IsValid)
             {
-                dbContext.Departments.Update(data);
+                dbContext.Departments.Update(department);
                 dbContext.SaveChanges();
-                return RedirectToAction("CreateDepartment");
+                return RedirectToAction("Index");
             }
             ViewBag.Departments = this.dbContext.Departments.ToList();
             
-            return View("CreateDepartment", data);
+            return View("CreateDepartment", department);
 
         }
 

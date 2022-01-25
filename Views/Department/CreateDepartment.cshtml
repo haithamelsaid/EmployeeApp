@@ -8,6 +8,11 @@
 <form asp-action=@ViewBag.Title>
     <div asp-validation-summary=All></div>
 
+
+    
+    <label asp-for="DepartmentId" class= "control-label"></label>
+    <input asp-for="DepartmentId" readonly class = "form-control" />
+ 
     <label asp-for="DepartmentName" class= "control-label"></label>
     <input asp-for="DepartmentName" class = "form-control" />
  
